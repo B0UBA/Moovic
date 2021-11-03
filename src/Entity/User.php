@@ -76,6 +76,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $userLikeMedia;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $telephone;
+
     public function __construct()
     {
         $this->userLikeMedia = new ArrayCollection();
@@ -268,6 +273,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $userLikeMedium->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): self
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }
