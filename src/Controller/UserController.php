@@ -57,6 +57,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            in_array($form->get('roles')->getData(), $user->getRoles()) ? '' : $user->setRoles(array_unique([$form->get('roles')->getData()]));
+            // dd($user,$form->get('roles')->getData(), $user->getRoles());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);

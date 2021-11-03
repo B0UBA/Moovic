@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,13 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 
-#[Route('/admin')]
+#[Route('/')]
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'admin',methods: ['GET'])]
     public function index(): Response
     { 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('default/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);
     }
@@ -30,6 +31,8 @@ class AdminController extends AbstractController
         ]);
 
     }
+
+
 
     #[Route('/{id}', name: 'user_delete', methods: ['POST'])]
     public function deleteUser(Request $request, User $user): Response
