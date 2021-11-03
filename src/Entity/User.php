@@ -61,13 +61,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Media::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * 
      */
     private $media;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * 
      */
     private $categorie;
 
