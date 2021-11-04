@@ -77,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $genre;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Media::class, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity=Media::class, inversedBy="users", orphanRemoval=true)
      * 
      */
     private $medias;
