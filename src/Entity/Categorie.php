@@ -25,9 +25,10 @@ class Categorie
     private $nom_categorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="categorie")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="categories")
      */
     private $users;
+
 
     public function __construct()
     {
@@ -51,6 +52,12 @@ class Categorie
         return $this;
     }
 
+    
+    public function __toString()
+    {
+        return $this->getId();
+    }
+
     /**
      * @return Collection|User[]
      */
@@ -63,7 +70,7 @@ class Categorie
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setCategorie($this);
+            $user->addCategory($this);
         }
 
         return $this;
@@ -72,16 +79,9 @@ class Categorie
     public function removeUser(User $user): self
     {
         if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getCategorie() === $this) {
-                $user->setCategorie(null);
-            }
+            $user->removeCategory($this);
         }
 
         return $this;
-    }
-    public function __toString()
-    {
-        return $this->getId();
     }
 }
