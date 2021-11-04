@@ -59,17 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $descript;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Media::class, inversedBy="users")
-     * 
-     */
-    private $media;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="users")
-     * 
-     */
-    private $categorie;
+    
 
     /**
      * @ORM\OneToMany(targetEntity=UserLikeMedia::class, mappedBy="user")
@@ -81,9 +71,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $telephone;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $genre;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Media::class, inversedBy="users")
+     * 
+     */
+    private $medias;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="users")
+     * 
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->userLikeMedia = new ArrayCollection();
+        $this->medias = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -223,30 +232,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMedia(): ?Media
+    public function getTelephone(): ?string
     {
-        return $this->media;
+        return $this->telephone;
     }
 
-    public function setMedia(?Media $media): self
+    public function setTelephone(string $telephone): self
     {
-        $this->media = $media;
+        $this->telephone = $telephone;
 
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection|UserLikeMedia[]
      */
@@ -277,15 +275,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getTelephone(): ?string
+    public function getGenre(): ?string
     {
-        return $this->telephone;
+        return $this->genre;
     }
 
-    public function setTelephone(string $telephone): self
+    public function setGenre(string $genre): self
     {
-        $this->telephone = $telephone;
+        $this->genre = $genre;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Media[]
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
+
+    public function addMedia(Media $media): self
+    {
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+        }
+
+        return $this;
+    }
+
+    public function removeMedia(Media $media): self
+    {
+        $this->medias->removeElement($media);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Categorie[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categorie $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categorie $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->getId();
     }
 }

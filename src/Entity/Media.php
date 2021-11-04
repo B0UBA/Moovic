@@ -24,15 +24,16 @@ class Media
      */
     private $nom_media;
 
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="media")
-     */
-    private $users;
 
     /**
      * @ORM\OneToMany(targetEntity=UserLikeMedia::class, mappedBy="media")
      */
     private $userLikeMedia;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="medias")
+     */
+    private $users;
 
     public function __construct()
     {
@@ -57,35 +58,6 @@ class Media
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setMedia($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getMedia() === $this) {
-                $user->setMedia(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|UserLikeMedia[]
@@ -112,6 +84,37 @@ class Media
             if ($userLikeMedium->getMedia() === $this) {
                 $userLikeMedium->setMedia(null);
             }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeMedia($this);
         }
 
         return $this;

@@ -21,6 +21,16 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/match', name: 'user_match', methods: ['GET'])]
+    public function match(UserRepository $userRepository): Response
+    {
+        // $medias = $this->getUser()->getMedias()->getValues();
+        // dd($medias);
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findByExampleField(),
+        ]);
+    }
+
     #[Route('/new', name: 'user_new', methods: ['GET','POST'])]
     public function new(Request $request): Response
     {
@@ -57,6 +67,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            in_array($form->get('roles')->getData(), $user->getRoles()) ? '' : $user->setRoles(array_unique([$form->get('roles')->getData()]));
+            // dd($user,$form->get('roles')->getData(), $user->getRoles());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);

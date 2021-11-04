@@ -2,17 +2,17 @@
 
 {% block body %}
 
+
     {% if app.user %}
-        {% if is_granted("ROLE_ADMIN") %}
+        {% if is_granted('ROLE_ADMIN') %}
             <a href={{ path('user_index') }}>Tous les Utilisateurs</a>
-            <a href={{ path('user_show') }}>Mon Compte</a>
-            <a href={{ path('app_logout') }}>Se Déconnecter</a>
         {% endif %}
-        <a href={{ path('user_show') }}>Mon Compte</a>
+        <a href={{ path('user_match') }}>Les Matchs</a>
+        <a href="{{ path('user_show', {'id': app.user.id}) }}">Mon Compte</a>
         <a href={{ path('app_logout') }}>Se Déconnecter</a>
     {% else %}
         <a href={{ path('app_login') }}>Se Connecter</a>
-        <a href={{ path('app_register') }}>Se Register</a
+        <a href={{ path('app_register') }}>S'inscrire</a>
     {% endif %}
 
     
