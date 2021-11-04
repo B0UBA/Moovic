@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,11 +43,13 @@ class RegistrationController extends AbstractController
             $this->get('security.token_storage')->setToken($token);
             $this->get('session')->set('_security_main', serialize($token));
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('preference');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+
+
 }
