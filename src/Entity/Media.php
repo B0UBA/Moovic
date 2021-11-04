@@ -31,7 +31,7 @@ class Media
     private $userLikeMedia;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="medias")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="medias", cascade={"remove"}, orphanRemoval=true)
      */
     private $users;
 
