@@ -23,6 +23,7 @@ class UserType extends AbstractType
             ])
             ->add('password')
             ->add('prenom')
+            ->add('genre')
             ->add('date_naissance')
             ->add('ville')
             ->add('descript')

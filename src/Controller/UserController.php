@@ -21,6 +21,16 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/match', name: 'user_match', methods: ['GET'])]
+    public function match(UserRepository $userRepository): Response
+    {
+        // $medias = $this->getUser()->getMedias()->getValues();
+        // dd($medias);
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findByExampleField(),
+        ]);
+    }
+
     #[Route('/new', name: 'user_new', methods: ['GET','POST'])]
     public function new(Request $request): Response
     {
