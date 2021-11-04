@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes préférence{% endblock %}
+
+{% block body %}
+    <h1>Mes préférence</h1>
+    <form method="post">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputEmail">Mon type préféré : </label>
+    <label for="inputPassword">Mes Categories préféré : </label>
+    {% for categorie in categorie %}
+        <input type="checkbox" name="email" id="inputEmail" class="form-control" value="{{ categorie.nom_categorie }}">
+    {% endfor %}
+    <button class="btn btn-lg btn-primary" type="submit">
+        Confirmé
+    </button>
+</form>
+
+
+{% endblock %}
