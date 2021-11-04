@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\MediaRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,12 +23,15 @@ class UserController extends AbstractController
     }
 
     #[Route('/match', name: 'user_match', methods: ['GET'])]
-    public function match(UserRepository $userRepository): Response
+    public function match(UserRepository $users,MediaRepository $medias): Response
     {
-        // $medias = $this->getUser()->getMedias()->getValues();
+        // $user = $this->getMedias();
+        $users = $this->getUser()->getMedias();
+        $medias = $users->getValues();
         // dd($medias);
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findByExampleField(),
+        return $this->render('match/index.html.twig', [
+            'medias' => $medias,
+            'user' => $users
         ]);
     }
 
